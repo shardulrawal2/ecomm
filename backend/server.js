@@ -12,10 +12,13 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://acmzon.vercel.app"
+    "https://acmzon.vercel.app",
+    "https://ecomm-mfv8ltu9f-shadzs-projects-4d4d425a.vercel.app"
   ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
+
 
 /* =========================
    MIDDLEWARE
