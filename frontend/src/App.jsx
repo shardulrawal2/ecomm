@@ -13,6 +13,8 @@ import SimpleCart from './components/SimpleCart';
 import OrdersPage from './components/OrdersPage';
 import OrderDetailPage from './components/OrderDetailPage';
 import AdminProducts from './pages/AdminProducts';
+console.log("API:", import.meta.env.VITE_API_BASE_URL);
+
 
 function App() {
   return (
