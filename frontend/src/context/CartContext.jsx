@@ -6,53 +6,82 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [cartCount, setCartCount] = useState(0);
 
+  // Global failsafe - ensure cart is always an array
+  const safeCart = Array.isArray(cart) ? cart : [];
+  if (cart !== safeCart) {
+    setCart(safeCart);
+  }
+
   useEffect(() => {
     const storedCart = localStorage.getItem('cart');
     if (storedCart) {
-      const parsedCart = JSON.parse(storedCart);
-      setCart(parsedCart);
-      updateCartCount(parsedCart);
+      try {
+        const parsedCart = JSON.parse(storedCart);
+        // Ensure we always set an array, never null
+        const safeCart = Array.isArray(parsedCart) ? parsedCart : [];
+        setCart(safeCart);
+        updateCartCount(safeCart);
+      } catch (error) {
+        console.error('Error parsing cart from localStorage:', error);
+        localStorage.removeItem('cart');
+        // Set empty array on error
+        setCart([]);
+        setCartCount(0);
+      }
     }
-  }, []);
+  }, []); // Only run once on mount
 
   const updateCartCount = (cartItems) => {
-    const count = cartItems.reduce((total, item) => total + item.quantity, 0);
+    // Always ensure we have an array
+    const safeCartItems = Array.isArray(cartItems) ? cartItems : [];
+    const count = safeCartItems.reduce((total, item) => total + (item?.quantity || 0), 0);
     setCartCount(count);
   };
 
   const addToCart = (product, quantity = 1) => {
-    const existingItem = cart.find((item) => item._id === product._id);
-    let updatedCart;
+    setCart(currentCart => {
+      // Ensure currentCart is always an array
+      const safeCurrentCart = Array.isArray(currentCart) ? currentCart : [];
+      const existingItem = safeCurrentCart.find((item) => item?._id === product?._id);
+      let updatedCart;
 
-    if (existingItem) {
-      updatedCart = cart.map((item) =>
-        item._id === product._id
-          ? { ...item, quantity: item.quantity + quantity }
-          : item
-      );
-    } else {
-      updatedCart = [...cart, { ...product, quantity }];
-    }
+      if (existingItem) {
+        updatedCart = safeCurrentCart.map((item) =>
+          item?._id === product?._id
+            ? { ...item, quantity: (item?.quantity || 0) + quantity }
+            : item
+        );
+      } else {
+        updatedCart = [...safeCurrentCart, { ...product, quantity }];
+      }
 
-    setCart(updatedCart);
-    updateCartCount(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+      // Always update localStorage with valid array
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      updateCartCount(updatedCart);
+      return updatedCart;
+    });
   };
 
   const removeFromCart = (productId) => {
-    const updatedCart = cart.filter((item) => item._id !== productId);
-    setCart(updatedCart);
-    updateCartCount(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    setCart(currentCart => {
+      const safeCurrentCart = Array.isArray(currentCart) ? currentCart : [];
+      const updatedCart = safeCurrentCart.filter((item) => item?._id !== productId);
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      updateCartCount(updatedCart);
+      return updatedCart;
+    });
   };
 
   const updateQuantity = (productId, quantity) => {
-    const updatedCart = cart.map((item) =>
-      item._id === productId ? { ...item, quantity } : item
-    );
-    setCart(updatedCart);
-    updateCartCount(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    setCart(currentCart => {
+      const safeCurrentCart = Array.isArray(currentCart) ? currentCart : [];
+      const updatedCart = safeCurrentCart.map((item) =>
+        item?._id === productId ? { ...item, quantity } : item
+      );
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      updateCartCount(updatedCart);
+      return updatedCart;
+    });
   };
 
   const clearCart = () => {
@@ -61,17 +90,18 @@ export const CartProvider = ({ children }) => {
     localStorage.removeItem('cart');
   };
 
+  // Context value NEVER changes shape - always same object structure
+  const contextValue = {
+    cart: safeCart, // Always an array, never null
+    cartCount,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+  };
+
   return (
-    <CartContext.Provider
-      value={{
-        cart,
-        cartCount,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-      }}
-    >
+    <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
   );

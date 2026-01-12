@@ -10,6 +10,10 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const formatPrice = (price) => {
+    return `₹${price.toLocaleString('en-IN')}`;
+  };
+
   useEffect(() => {
     fetchOrders();
   }, []);
@@ -19,7 +23,7 @@ const Orders = () => {
     setError('');
     try {
       const response = await getUserOrders();
-      setOrders(response.data.orders);
+      setOrders(response.data.orders || []);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to fetch orders');
     } finally {
@@ -31,18 +35,18 @@ const Orders = () => {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-100 py-8">
+      <div className="min-h-screen bg-noir-950 py-8">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-8">My Orders</h1>
+          <h1 className="text-3xl font-bold mb-8 text-noir-50">My Orders</h1>
 
           {error && <ErrorMessage message={error} onClose={() => setError('')} />}
 
           {orders.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-lg">
-              <p className="text-gray-600 text-lg mb-4">You haven't placed any orders yet</p>
+            <div className="text-center py-12 bg-noir-900 rounded-xl border border-noir-800">
+              <p className="text-noir-400 text-lg mb-4">You haven't placed any orders yet</p>
               <Link
                 to="/"
-                className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+                className="bg-neon-cyan text-noir-950 px-6 py-2 rounded-lg hover:bg-noir-50 font-medium transition-all duration-300 hover:scale-105"
               >
                 Start Shopping
               </Link>
@@ -53,22 +57,22 @@ const Orders = () => {
                 <Link
                   key={order._id}
                   to={`/orders/${order._id}`}
-                  className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition block"
+                  className="bg-noir-900 p-6 rounded-xl border border-noir-800 hover:border-neon-cyan hover:shadow-lg hover:shadow-neon-cyan/20 transition-all duration-300 block"
                 >
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <p className="text-sm text-gray-600">Order ID: {order._id}</p>
-                      <p className="text-gray-600">
+                      <p className="text-noir-400 text-sm">Order ID: {order._id}</p>
+                      <p className="text-noir-400">
                         {new Date(order.createdAt).toLocaleDateString()}
                       </p>
                     </div>
                     <span
-                      className={`px-3 py-1 rounded text-white ${
+                      className={`px-3 py-1 rounded text-white text-sm font-medium ${
                         order.status === 'delivered'
-                          ? 'bg-green-500'
+                          ? 'bg-green-600'
                           : order.status === 'cancelled'
-                          ? 'bg-red-500'
-                          : 'bg-blue-500'
+                          ? 'bg-red-600'
+                          : 'bg-blue-600'
                       }`}
                     >
                       {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
@@ -77,21 +81,21 @@ const Orders = () => {
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
-                      <p className="text-gray-600 text-sm">Items</p>
-                      <p className="text-lg font-semibold">{order.items.length}</p>
+                      <p className="text-noir-400 text-sm">Items</p>
+                      <p className="text-lg font-semibold text-noir-50">{order.items?.length || 0}</p>
                     </div>
                     <div>
-                      <p className="text-gray-600 text-sm">Total</p>
-                      <p className="text-lg font-semibold text-blue-600">
-                        ${order.totalPrice.toFixed(2)}
+                      <p className="text-noir-400 text-sm">Total</p>
+                      <p className="text-lg font-semibold text-neon-cyan">
+                        {formatPrice(order.totalPrice || 0)}
                       </p>
                     </div>
                     <div>
-                      <p className="text-gray-600 text-sm">Payment</p>
-                      <p className="text-lg font-semibold">{order.paymentStatus}</p>
+                      <p className="text-noir-400 text-sm">Payment</p>
+                      <p className="text-lg font-semibold text-noir-50">{order.paymentStatus || 'Pending'}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-blue-600 font-semibold">View Details →</p>
+                      <p className="text-neon-cyan font-semibold">View Details →</p>
                     </div>
                   </div>
                 </Link>

@@ -395,3 +395,179 @@ If you encounter issues:
 ## License
 
 MIT License
+
+## Live Demo
+🚀 **Live Demo:** [https://acmazon-demo.vercel.app](https://acmazon-demo.vercel.app)
+
+A fully functional e-commerce demo with:
+- Product browsing and search
+- Shopping cart with localStorage persistence
+- One-click checkout with order creation
+- Order history and details
+- Admin product management
+- Modern dark theme with neon accents
+
+## Deployment Instructions
+
+### Backend (Node.js + Express + MongoDB)
+1. **Prerequisites**
+   - Node.js 14+ or higher
+   - MongoDB (local or Atlas)
+
+2. **Setup**
+   ```bash
+   cd backend
+   npm install
+   cp .env.example .env
+   # Edit .env with your MongoDB URI and JWT secret
+   ```
+
+3. **Run Development**
+   ```bash
+   npm run dev
+   # Server runs on http://localhost:5000
+   ```
+
+4. **Run Production**
+   ```bash
+   npm start
+   # Server runs on http://localhost:5000
+   ```
+
+### Frontend (React + Vite)
+1. **Prerequisites**
+   - Node.js 14+ or higher
+   - npm or yarn
+
+2. **Setup**
+   ```bash
+   cd frontend
+   npm install
+   ```
+
+3. **Run Development**
+   ```bash
+   npm run dev
+   # App runs on http://localhost:5173
+   ```
+
+4. **Build for Production**
+   ```bash
+   npm run build
+   # Builds to dist/ folder
+   ```
+
+5. **Preview Production Build**
+   ```bash
+   npm run preview
+   # Preview production build locally
+   ```
+
+### Environment Variables
+
+#### Backend (.env)
+```env
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/ecomm
+JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
+NODE_ENV=production
+```
+
+#### Frontend
+No .env file needed - uses hardcoded API base URL
+
+### Production Deployment Options
+
+#### Option 1: Vercel (Recommended)
+1. **Backend**
+   - Connect GitHub repository to Vercel
+   - Set environment variables in Vercel dashboard
+   - Auto-deploys on git push
+
+2. **Frontend**
+   - Connect GitHub repository to Vercel
+   - Configure build settings
+   - Auto-deploys on git push
+
+#### Option 2: Netlify
+1. **Backend**
+   - Deploy as Netlify Function
+   - Configure environment variables
+   - Static frontend hosting
+
+2. **Frontend**
+   - Build and deploy static files
+   - Configure redirects for API calls
+
+#### Option 3: Railway/Render
+1. **Backend**
+   - Connect GitHub repository
+   - Set environment variables
+   - Auto-deploys on git push
+
+2. **Frontend**
+   - Build and deploy static files
+   - Configure API base URL
+
+### Docker Deployment
+```dockerfile
+# Backend Dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+EXPOSE 5000
+CMD ["npm", "start"]
+```
+
+```bash
+# Build and run with Docker
+docker build -t ecomm-backend .
+docker run -p 5000:5000 ecomm-backend
+```
+
+### Database Setup
+
+#### Local MongoDB
+```bash
+# Start MongoDB service
+sudo systemctl start mongod
+
+# Create database
+mongosh
+
+# Insert sample data
+node seed.js
+```
+
+#### MongoDB Atlas
+1. Create free cluster at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+2. Get connection string
+3. Update .env with `MONGO_URI`
+4. Deploy backend with Atlas URI
+
+### Features Demonstrated
+- User authentication (register/login)
+- Product catalog with search and filtering
+- Shopping cart with localStorage persistence
+- One-click checkout with order creation
+- Order history and detailed views
+- Admin product management
+- Responsive design with modern UI
+- Error handling and loading states
+- Dark theme with neon accents
+
+### Tech Stack
+- **Frontend**: React 18, Vite, Tailwind CSS, React Router
+- **Backend**: Node.js, Express, MongoDB, Mongoose, JWT
+- **Authentication**: bcryptjs, jsonwebtoken
+- **Styling**: Tailwind CSS with custom noir/neon theme
+- **Deployment**: Vercel, Netlify, Railway, Docker
+
+### Support
+For issues or questions:
+- Check console logs for error messages
+- Verify MongoDB connection in backend terminal
+- Ensure frontend API base URL matches backend URL
+- Clear browser cache and localStorage if needed

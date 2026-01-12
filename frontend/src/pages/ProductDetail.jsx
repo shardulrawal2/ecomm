@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProductById } from '../utils/apiCalls';
-import { useCart } from '../context/CartContext';
+import { useToast } from '../context/ToastContext';
+import { addItemToStorage } from '../utils/cartStorage';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 
@@ -12,15 +13,13 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useCart();
+  const { addToast } = useToast();
 
   useEffect(() => {
     fetchProduct();
   }, [id]);
 
   const fetchProduct = async () => {
-    setLoading(true);
-    setError('');
     try {
       const response = await getProductById(id);
       setProduct(response.data.product);
@@ -36,8 +35,12 @@ const ProductDetail = () => {
   if (!product) return <div className="text-center py-12">Product not found</div>;
 
   const handleAddToCart = () => {
-    addToCart(product, quantity);
-    alert('Added to cart!');
+    // Add multiple items based on quantity
+    for (let i = 0; i < quantity; i++) {
+      addItemToStorage(product);
+    }
+    addToast(`Added ${quantity} item(s) to cart!`, 'success');
+    // NO page reload, NO navigation, NO React state update
   };
 
   return (
