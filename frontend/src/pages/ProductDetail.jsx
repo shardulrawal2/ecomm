@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProductById } from '../utils/apiCalls';
 import { useToast } from '../context/ToastContext';
-import { addItemToStorage } from '../utils/cartStorage';
+import { getCartFromStorage, saveCartToStorage } from '../utils/cartStorage';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 
@@ -35,10 +35,24 @@ const ProductDetail = () => {
   if (!product) return <div className="text-center py-12">Product not found</div>;
 
   const handleAddToCart = () => {
-    // Add multiple items based on quantity
-    for (let i = 0; i < quantity; i++) {
-      addItemToStorage(product);
+    // Add item with correct quantity
+    const cart = getCartFromStorage();
+    const existingItem = cart.find(item => item._id === product._id);
+    
+    let updatedCart;
+    if (existingItem) {
+      // Update existing item quantity
+      updatedCart = cart.map(item =>
+        item._id === product._id
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
+      );
+    } else {
+      // Add new item with quantity
+      updatedCart = [...cart, { ...product, quantity }];
     }
+    
+    saveCartToStorage(updatedCart);
     addToast(`Added ${quantity} item(s) to cart!`, 'success');
     // NO page reload, NO navigation, NO React state update
   };

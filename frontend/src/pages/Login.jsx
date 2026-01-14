@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../utils/apiCalls';
 import { useAuth } from '../context/AuthContext';
 import ErrorMessage from '../components/ErrorMessage';
@@ -83,9 +83,9 @@ const Login = () => {
 
         <p className="mt-4 text-center text-gray-300">
           Don't have an account?{' '}
-          <a href="/register" className="text-blue-400 font-semibold hover:underline">
+          <Link to="/register" className="text-blue-400 font-semibold hover:underline">
             Register
-          </a>
+          </Link>
         </p>
 
         <div className="mt-6 p-4 bg-gray-800 rounded text-sm text-gray-300">
