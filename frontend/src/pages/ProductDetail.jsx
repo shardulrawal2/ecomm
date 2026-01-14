@@ -43,54 +43,67 @@ const ProductDetail = () => {
     // NO page reload, NO navigation, NO React state update
   };
 
+  const handleImageError = (e) => {
+    e.target.src = 'https://via.placeholder.com/300x300?text=Product';
+  };
+
+  const isInStock = !product.stock || product.stock > 0;
+
+  const formatPrice = (price) => {
+    return `₹${price.toLocaleString('en-IN')}`;
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
+    <div className="min-h-screen bg-noir-950 py-8">
       <div className="container mx-auto px-4">
         <button
           onClick={() => navigate('/')}
-          className="text-blue-600 hover:underline mb-6"
+          className="text-neon-cyan hover:text-noir-50 mb-6 transition-colors duration-300"
         >
           ← Back to Products
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-6 rounded-lg shadow">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-noir-900 p-6 rounded-xl border border-noir-800">
           <div>
             <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-96 object-cover rounded"
+              src={product.image || 'https://via.placeholder.com/300x300?text=Product'}
+              alt={product.name || 'Product'}
+              className="w-full h-96 object-cover rounded-lg"
+              onError={handleImageError}
             />
           </div>
 
           <div>
-            <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-            <p className="text-gray-600 mb-4">{product.category}</p>
+            <h1 className="text-3xl font-bold mb-2 text-noir-50">{product.name || 'Product'}</h1>
+            <p className="text-noir-400 mb-4">{product.category || 'General'}</p>
 
             <div className="mb-4">
-              <span className="text-4xl font-bold text-blue-600">${product.price}</span>
-              <p className="text-sm text-gray-500 mt-2">Stock: {product.stock}</p>
+              <span className="text-4xl font-bold text-neon-cyan">{formatPrice(product.price || 0)}</span>
+              <p className="text-sm text-noir-500 mt-2">
+                {isInStock ? 'In Stock' : `Stock: ${product.stock || 0}`}
+              </p>
             </div>
 
-            <p className="text-gray-700 mb-6 leading-relaxed">{product.description}</p>
+            <p className="text-noir-300 mb-6 leading-relaxed">{product.description || 'No description available'}</p>
 
             <div className="mb-6">
-              <label className="block text-gray-700 font-semibold mb-2">
+              <label className="block text-noir-50 font-semibold mb-2">
                 Quantity:
               </label>
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
+                  className="bg-noir-800 text-noir-50 px-3 py-1 rounded-lg hover:bg-noir-700 transition-colors duration-300"
                 >
                   -
                 </button>
-                <span className="text-xl font-semibold">{quantity}</span>
+                <span className="text-xl font-semibold text-noir-50">{quantity}</span>
                 <button
                   onClick={() =>
-                    setQuantity(Math.min(product.stock, quantity + 1))
+                    setQuantity(Math.min(product.stock || 1, quantity + 1))
                   }
-                  className="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400"
-                  disabled={quantity >= product.stock}
+                  className="bg-noir-800 text-noir-50 px-3 py-1 rounded-lg hover:bg-noir-700 transition-colors duration-300"
+                  disabled={quantity >= (product.stock || 1)}
                 >
                   +
                 </button>
@@ -99,16 +112,16 @@ const ProductDetail = () => {
 
             <button
               onClick={handleAddToCart}
-              disabled={product.stock === 0}
-              className="w-full bg-green-500 text-white py-3 rounded font-semibold hover:bg-green-600 disabled:bg-gray-400 mb-4"
+              disabled={!isInStock}
+              className="w-full bg-neon-cyan text-noir-950 py-3 rounded-lg font-semibold hover:bg-noir-50 disabled:bg-noir-800 disabled:text-noir-600 disabled:cursor-not-allowed transition-all duration-300 mb-4"
             >
               Add to Cart
             </button>
 
-            <div className="bg-blue-50 p-4 rounded text-sm text-gray-700">
-              <p className="font-semibold mb-2">Product Details:</p>
-              <p>Rating: {product.rating} / 5</p>
-              <p>Reviews: {product.reviews}</p>
+            <div className="bg-noir-800 p-4 rounded-lg border border-noir-700">
+              <p className="font-semibold mb-2 text-noir-50">Product Details:</p>
+              <p className="text-noir-300">Rating: {product.rating || 'N/A'} / 5</p>
+              <p className="text-noir-300">Reviews: {product.reviews || 'N/A'}</p>
             </div>
           </div>
         </div>
