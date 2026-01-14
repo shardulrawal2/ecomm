@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
   };
 
   const displayRating = product.rating || generateRating();
-  const isInStock = !product.stock || product.stock > 0;
+  const isInStock = !product.countInStock || product.countInStock > 0;
 
   const handleImageError = (e) => {
     e.target.src = 'https://via.placeholder.com/300x300?text=Product';
@@ -52,11 +52,11 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="group bg-noir-900 rounded-xl border border-noir-800 overflow-hidden hover:border-neon-cyan hover:shadow-lg hover:shadow-neon-cyan/20 transition-all duration-300 transform hover:scale-105">
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden h-48 flex items-center justify-center bg-noir-800">
         <img
           src={product.image || 'https://via.placeholder.com/300x300?text=Product'}
           alt={product.name || 'Product'}
-          className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+          className="max-w-full max-h-full object-contain"
           onError={handleImageError}
         />
         {!isInStock && (
@@ -78,13 +78,14 @@ const ProductCard = ({ product }) => {
           <div className="flex items-center">
             {renderStars(displayRating)}
             <span className="ml-2 text-noir-400 text-sm">({displayRating})</span>
+            <span className="ml-1 text-noir-500 text-sm">({product.numReviews || 0} reviews)</span>
           </div>
         </div>
         
         <div className="flex justify-between items-center mb-4">
           <span className="text-2xl font-bold text-neon-cyan">{formatPrice(product.price || 0)}</span>
           <span className="text-sm text-noir-500">
-            {isInStock ? 'In Stock' : `Stock: ${product.stock || 0}`}
+            {isInStock ? 'In Stock' : `Stock: ${product.countInStock || 0}`}
           </span>
         </div>
         <div className="flex gap-2">

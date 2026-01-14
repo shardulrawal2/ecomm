@@ -61,7 +61,7 @@ const ProductDetail = () => {
     e.target.src = 'https://via.placeholder.com/300x300?text=Product';
   };
 
-  const isInStock = !product.stock || product.stock > 0;
+  const isInStock = !product.countInStock || product.countInStock > 0;
 
   const formatPrice = (price) => {
     return `₹${price.toLocaleString('en-IN')}`;
@@ -94,11 +94,19 @@ const ProductDetail = () => {
             <div className="mb-4">
               <span className="text-4xl font-bold text-neon-cyan">{formatPrice(product.price || 0)}</span>
               <p className="text-sm text-noir-500 mt-2">
-                {isInStock ? 'In Stock' : `Stock: ${product.stock || 0}`}
+                {isInStock ? 'In Stock' : `Stock: ${product.countInStock || 0}`}
               </p>
             </div>
 
             <p className="text-noir-300 mb-6 leading-relaxed">{product.description || 'No description available'}</p>
+
+            <div className="mb-6">
+              <div className="flex items-center mb-4">
+                <span className="text-yellow-400 mr-2">⭐</span>
+                <span className="text-noir-300 font-semibold">{product.rating || 0}</span>
+                <span className="text-noir-500 ml-2">({product.numReviews || 0} reviews)</span>
+              </div>
+            </div>
 
             <div className="mb-6">
               <label className="block text-noir-50 font-semibold mb-2">
@@ -114,10 +122,10 @@ const ProductDetail = () => {
                 <span className="text-xl font-semibold text-noir-50">{quantity}</span>
                 <button
                   onClick={() =>
-                    setQuantity(Math.min(product.stock || 1, quantity + 1))
+                    setQuantity(Math.min(product.countInStock || 1, quantity + 1))
                   }
                   className="bg-noir-800 text-noir-50 px-3 py-1 rounded-lg hover:bg-noir-700 transition-colors duration-300"
-                  disabled={quantity >= (product.stock || 1)}
+                  disabled={quantity >= (product.countInStock || 1)}
                 >
                   +
                 </button>
