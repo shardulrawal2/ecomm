@@ -7,18 +7,18 @@ const errorHandler = require('./middleware/errorHandler');
 const app = express();
 
 /* =========================
-   CORS — FIXED (ONLY ONCE)
+   CORS (ONLY ONCE)
    ========================= */
 app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://acmzon.vercel.app",
-    "https://ecomm-mfv8ltu9f-shadzs-projects-4d4d425a.vercel.app"
+    "https://ecomm-mfv8ltu9f-shadzs-projects-4d4d425a.vercel.app",
+    "https://ecomm-blond-one.vercel.app"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
-
 
 /* =========================
    MIDDLEWARE
