@@ -89,7 +89,7 @@ const SimpleCart = () => {
     return (
       <div className="min-h-screen bg-noir-950 py-8">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-8 text-noir-50">Shopping Cart</h1>
+          <h1 className="text-3xl font-bold mb-8 text-noir-50">ACMzon Shopping Cart</h1>
           <div className="text-center py-16 bg-noir-900 rounded-xl border border-noir-800">
             <p className="text-noir-400 text-xl mb-6">Your cart is empty</p>
             <button
@@ -107,7 +107,7 @@ const SimpleCart = () => {
   return (
     <div className="min-h-screen bg-noir-950 py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8 text-noir-50">Shopping Cart</h1>
+        <h1 className="text-3xl font-bold mb-8 text-noir-50">ACMzon Shopping Cart</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">

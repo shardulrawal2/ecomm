@@ -79,7 +79,7 @@ const Home = () => {
     <div className="min-h-screen bg-noir-950">
       <div className="container mx-auto py-8 px-4">
         <h1 className="text-4xl font-bold mb-8 text-noir-50 bg-gradient-to-r from-noir-50 to-neon-cyan bg-clip-text text-transparent">
-          Welcome to ACMazon
+          Welcome to ACMzon
         </h1>
 
         {error && <ErrorMessage message={error} onClose={() => setError('')} />}

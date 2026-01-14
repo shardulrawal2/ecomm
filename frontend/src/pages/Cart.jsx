@@ -94,7 +94,7 @@ const Cart = () => {
     return (
       <div className="min-h-screen bg-noir-950 py-8">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-8 text-noir-50">ACMazon Shopping Cart</h1>
+          <h1 className="text-3xl font-bold mb-8 text-noir-50">ACMzon Shopping Cart</h1>
           <div className="text-center py-16 bg-noir-900 rounded-xl border border-noir-800">
             <div className="mb-6">
               <div className="w-24 h-24 mx-auto bg-noir-800 rounded-full flex items-center justify-center">
@@ -120,7 +120,7 @@ const Cart = () => {
   return (
     <div className="min-h-screen bg-noir-950 py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8 text-noir-50">ACMazon Shopping Cart</h1>
+        <h1 className="text-3xl font-bold mb-8 text-noir-50">ACMzon Shopping Cart</h1>
 
         {error && <ErrorMessage message={error} onClose={() => setError('')} />}
 
