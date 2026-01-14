@@ -571,3 +571,11 @@ For issues or questions:
 - Verify MongoDB connection in backend terminal
 - Ensure frontend API base URL matches backend URL
 - Clear browser cache and localStorage if needed
+
+
+
+UPDATE:-
+
+the website is deployed on ---- https://acmzon.vercel.app/    check it out
+
+
