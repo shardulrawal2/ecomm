@@ -41,33 +41,33 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div className="page-dark">
+      <div className="auth-card">
         <h2 className="text-3xl font-bold mb-6 text-center">Login</h2>
 
         {error && <ErrorMessage message={error} onClose={() => setError('')} />}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">Email</label>
+            <label className="block text-white font-semibold mb-2">Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-2 border border-gray-600 rounded bg-gray-800 text-white focus:outline-none focus:border-blue-500"
               required
             />
           </div>
 
           <div className="mb-6">
-            <label className="block text-gray-700 font-semibold mb-2">Password</label>
+            <label className="block text-white font-semibold mb-2">Password</label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-2 border border-gray-600 rounded bg-gray-800 text-white focus:outline-none focus:border-blue-500"
               required
             />
           </div>
@@ -81,14 +81,14 @@ const Login = () => {
           </button>
         </form>
 
-        <p className="mt-4 text-center text-gray-600">
+        <p className="mt-4 text-center text-gray-300">
           Don't have an account?{' '}
-          <a href="/register" className="text-blue-600 font-semibold hover:underline">
+          <a href="/register" className="text-blue-400 font-semibold hover:underline">
             Register
           </a>
         </p>
 
-        <div className="mt-6 p-4 bg-blue-50 rounded text-sm text-gray-700">
+        <div className="mt-6 p-4 bg-gray-800 rounded text-sm text-gray-300">
           <p className="font-semibold mb-2">Demo Credentials:</p>
           <p>Email: admin@test.com</p>
           <p>Password: password123</p>

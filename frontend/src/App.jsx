@@ -18,25 +18,27 @@ console.log("API:", import.meta.env.VITE_API_BASE_URL);
 
 function App() {
   return (
-    <ErrorBoundary>
-      <Router>
-        <ToastProvider>
-          <AuthProvider>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/cart" element={<SimpleCart />} />
-              <Route path="/orders" element={<OrdersPage />} />
-              <Route path="/orders/:id" element={<OrderDetailPage />} />
-              <Route path="/admin/products" element={<AdminProducts />} />
-            </Routes>
-          </AuthProvider>
-        </ToastProvider>
-      </Router>
-    </ErrorBoundary>
+    <div className="app-dark">
+      <ErrorBoundary>
+        <Router>
+          <ToastProvider>
+            <AuthProvider>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/cart" element={<SimpleCart />} />
+                <Route path="/orders" element={<OrdersPage />} />
+                <Route path="/orders/:id" element={<OrderDetailPage />} />
+                <Route path="/admin/products" element={<AdminProducts />} />
+              </Routes>
+            </AuthProvider>
+          </ToastProvider>
+        </Router>
+      </ErrorBoundary>
+    </div>
   );
 }
 

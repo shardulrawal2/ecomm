@@ -54,8 +54,8 @@ const ProductDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-noir-950 py-8">
-      <div className="container mx-auto px-4">
+    <div className="page-dark">
+      <div className="product-detail-card">
         <button
           onClick={() => navigate('/')}
           className="text-neon-cyan hover:text-noir-50 mb-6 transition-colors duration-300"
@@ -63,7 +63,7 @@ const ProductDetail = () => {
           ← Back to Products
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-noir-900 p-6 rounded-xl border border-noir-800">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <img
               src={product.image || 'https://via.placeholder.com/300x300?text=Product'}
